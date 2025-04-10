@@ -1,8 +1,11 @@
+from simulation.roulette import RouletteType
+from simulation.strategies import Martingale, Fibonacci, DAlambert
+from simulation.montecarlo import monte_carlo
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
-import os
+import oss
 import sys
 
 # Get absolute path to project root
@@ -10,9 +13,7 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
 
 # Now use absolute imports
-from server.simulation.roulette import RouletteType
-from server.simulation.strategies import Martingale, Fibonacci, DAlambert
-from server.simulation.montecarlo import monte_carlo
+
 
 app = FastAPI()
 
