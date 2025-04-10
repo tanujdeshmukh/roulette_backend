@@ -1,6 +1,6 @@
-from server.simulation.simulator import simulate, SimulationResult
-from server.simulation.roulette import RouletteType
-from server.simulation.strategies import BettingStrategy
+from simulation.simulator import simulate, SimulationResult
+from simulation.roulette import RouletteType
+from simulation.strategies import BettingStrategy
 from typing import List
 
 def monte_carlo(
