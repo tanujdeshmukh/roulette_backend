@@ -7,6 +7,7 @@ from pydantic import BaseModel
 import uvicorn
 import os
 import sys
+import numpy as np
 
 # Get absolute path to project root
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -125,11 +126,18 @@ async def compare_strategies(request: SimulationRequest):
         )
         max_len = max(len(r.history) for r in runs)
         padded = [r.history + [r.history[-1]] * (max_len - len(r.history)) for r in runs]
-        avg = [sum(x) / len(x) for x in zip(*padded)]
-        result_summary[name] = avg
+        means = np.mean(padded, axis=0)
+        low = np.percentile(padded, 2.5, axis=0)
+        high = np.percentile(padded, 97.5, axis=0)
 
-    return result_summary
-    
+        result_summary[name] = {
+            "mean": list(means),
+            "lower": list(low),
+            "upper": list(high)
+        }
+
+    return result_summary   
+
 def start_server():
     print("Starting FastAPI server on http://localhost:8000")
     uvicorn.run(app, host="0.0.0.0", port=8000)
